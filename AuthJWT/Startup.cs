@@ -2,6 +2,7 @@ using AuthJWT.Authentication;
 using AuthJWT.Data;
 using AuthJWT.JWTData;
 using AuthJWT.Models;
+using AuthJWT.Repostory;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -39,6 +40,7 @@ namespace AuthJWT
 
             services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<IAuth, Auth>();
+            services.AddScoped<IRepo, UserRepo>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Connection"))

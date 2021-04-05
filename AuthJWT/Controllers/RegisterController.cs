@@ -1,5 +1,6 @@
 ﻿using AuthJWT.Authentication;
 using AuthJWT.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace AuthJWT.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class RegisterController : ControllerBase

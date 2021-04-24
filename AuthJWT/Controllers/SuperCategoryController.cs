@@ -1,6 +1,5 @@
 ﻿using AuthJWT.Models;
 using AuthJWT.Repostory;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,14 +9,13 @@ using System.Threading.Tasks;
 
 namespace AuthJWT.Controllers
 {
-
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class SuperCategoryController : ControllerBase
     {
-        private readonly IRepo<User> _repo;
+        private readonly IRepo<SuperCategory> _repo;
 
-        public UserController(IRepo<User> repo)
+        public SuperCategoryController(IRepo<SuperCategory> repo)
         {
             _repo = repo;
         }
@@ -25,31 +23,31 @@ namespace AuthJWT.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var users = await _repo.GetItems();
-            return Ok(users);
+            var scats = await _repo.GetItems();
+            return Ok(scats);
         }
 
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            var userId = await _repo.GetItem(id);
-            return Ok(userId);
+            var catId = await _repo.GetItem(id);
+            return Ok(catId);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] User user)
+        public async Task<IActionResult> Post([FromBody] SuperCategory super)
         {
-            var create = await _repo.AddItem(user);
+            var create = await _repo.AddItem(super);
             return Ok(create);
         }
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] User user)
+        public async Task<IActionResult> Put([FromBody] SuperCategory super)
         {
-            await _repo.UpdateItem(user);
+            await _repo.UpdateItem(super);
 
             return Ok();
         }
@@ -64,4 +62,3 @@ namespace AuthJWT.Controllers
         }
     }
 }
-

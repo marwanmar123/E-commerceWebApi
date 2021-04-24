@@ -40,7 +40,10 @@ namespace AuthJWT
 
             services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<IAuth, Auth>();
-            services.AddScoped<IRepo, UserRepo>();
+            services.AddScoped<IRepo<User>, UserRepo>();
+            services.AddScoped<IRepo<Product>, ProductRepo>();
+            services.AddScoped<IRepo<SuperCategory>, SCategoryRepo>();
+            services.AddScoped<IRepo<Category>, CategoryRepo>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Connection"))

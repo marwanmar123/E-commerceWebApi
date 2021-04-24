@@ -3,15 +3,19 @@ using System;
 
 namespace AuthJWT.Migrations
 {
-    public partial class addRoles : Migration
+    public partial class role : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.RenameColumn(
+                name: "Link",
+                table: "Products",
+                newName: "Prix");
             migrationBuilder.InsertData(
-               table: "AspNetRoles",
-               columns: new[] { "Id", "Name", "NormalizedName", "ConcurrencyStamp" },
-               values: new object[] { Guid.NewGuid().ToString(), "User", "User".ToUpper(), Guid.NewGuid().ToString() }
-           );
+             table: "AspNetRoles",
+             columns: new[] { "Id", "Name", "NormalizedName", "ConcurrencyStamp" },
+             values: new object[] { Guid.NewGuid().ToString(), "User", "User".ToUpper(), Guid.NewGuid().ToString() }
+         );
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
@@ -22,6 +26,10 @@ namespace AuthJWT.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.RenameColumn(
+                name: "Prix",
+                table: "Products",
+                newName: "Link");
             migrationBuilder.Sql("DELETE FROM [AspNetRoles]");
         }
     }

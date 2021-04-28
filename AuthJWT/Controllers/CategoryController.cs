@@ -1,8 +1,10 @@
-﻿using AuthJWT.Models;
+﻿using AuthJWT.Data;
+using AuthJWT.Models;
 using AuthJWT.Repostory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +17,12 @@ namespace AuthJWT.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly IRepo<Category> _repo;
+        private readonly ApplicationDbContext _db;
 
-        public CategoryController(IRepo<Category> repo)
+        public CategoryController(IRepo<Category> repo, ApplicationDbContext Db)
         {
             _repo = repo;
+            _db = Db;
         }
 
         [HttpGet]
@@ -61,5 +65,8 @@ namespace AuthJWT.Controllers
             return Ok(delete);
 
         }
+
+
+
     }
 }

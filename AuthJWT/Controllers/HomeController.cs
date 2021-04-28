@@ -22,8 +22,17 @@ namespace AuthJWT.Controllers
             _db = Db;
         }
 
+
         [HttpGet]
-        public async Task<IActionResult> Get(string id)
+        public async Task<IActionResult> Catgr()
+        {
+            var categories = await _db.Categories.ToListAsync();
+            return Ok(categories);
+        }
+
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProduct(string id)
         {
             var result = await _db.Products.Where(x => x.CategoryId == id).OrderByDescending(y => y.Date).ToListAsync();
             return Ok(result);

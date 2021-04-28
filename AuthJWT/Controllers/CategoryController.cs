@@ -1,5 +1,6 @@
 ﻿using AuthJWT.Models;
 using AuthJWT.Repostory;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;

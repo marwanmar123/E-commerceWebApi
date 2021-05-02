@@ -14,7 +14,7 @@ namespace AuthJWT.Models
         public string Id { get; set; }
         public string Name { get; set; }
         public DateTime Date { get; set; }
-        public double Prix { get; set; }
+        public float Prix { get; set; }
         public string Image { get; set; }
         public string Topic { get; set; }
         public string CategoryId { get; set; }

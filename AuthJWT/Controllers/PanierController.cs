@@ -19,7 +19,6 @@ namespace AuthJWT.Controllers
     {
         private readonly ApplicationDbContext _db;
         private readonly UserManager<User> _userManager;
-
         public PanierController(ApplicationDbContext Db, UserManager<User> userManager)
         {
             _db = Db;
@@ -30,11 +29,21 @@ namespace AuthJWT.Controllers
 
 
 
-        [HttpGet]
+        [HttpGet("AllPanier")]
         public async Task<IActionResult> Get()
         {
             var panies = await _db.Paniers.ToListAsync();
             return Ok(panies);
+        }
+
+
+        [HttpGet("PanierUser")]
+        public async Task<IActionResult> GetPanierUser(string userId)
+        {
+
+            var panier = await _db.Paniers.Where(p => p.UserId == userId).ToListAsync();
+
+            return Ok(panier);
         }
 
         [HttpPost("AddToPanier")]
@@ -42,7 +51,7 @@ namespace AuthJWT.Controllers
         {
             var user = await _userManager.FindByEmailAsync(login.Email);
 
-            Panier panier = await _db.Paniers.SingleOrDefaultAsync(p => p.ProductId == IdPrdct && p.UserId == user.Id);
+            var panier = await _db.Paniers.SingleOrDefaultAsync(p => p.ProductId == IdPrdct && p.UserId == user.Id);
             if (panier == null)
             {
                 panier = new Panier
@@ -50,6 +59,7 @@ namespace AuthJWT.Controllers
                     UserId = user.Id,
                     ProductId = IdPrdct,
                     Quantity = 1
+                    //TotalPrice = _panier.Quantity * _product.Prix
                 };
                 await _db.Paniers.AddAsync(panier);
             }
@@ -61,6 +71,14 @@ namespace AuthJWT.Controllers
 
             return Ok(panier);
         }
+
+        //[HttpGet("TotalPrice")]
+        //public async Task<IActionResult> TotalPrice(string userId)
+        //{
+        //    //SumAsync(n => (n.Some()))
+        //    var TP = await _db.Paniers.Where(p => p.UserId == userId).Include(n => n.Product).SumAsync(n => (n.Quantity * _product.Prix));
+        //    return Ok(TP);
+        //}
 
         [HttpPost("DeleteFromPanier")]
         public async Task<IActionResult> DeletePanier(string userId)

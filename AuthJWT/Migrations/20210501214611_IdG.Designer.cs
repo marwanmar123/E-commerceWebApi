@@ -4,14 +4,16 @@ using AuthJWT.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AuthJWT.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210501214611_IdG")]
+    partial class IdG
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,20 +46,18 @@ namespace AuthJWT.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("PanierId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ProductId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<double>("Quantity")
                         .HasColumnType("float");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Paniers");
                 });
@@ -321,13 +321,7 @@ namespace AuthJWT.Migrations
                         .WithMany()
                         .HasForeignKey("ProductId");
 
-                    b.HasOne("AuthJWT.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
                     b.Navigation("Product");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AuthJWT.Models.Product", b =>

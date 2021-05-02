@@ -19,6 +19,7 @@ namespace AuthJWT.Controllers
     {
         private readonly ApplicationDbContext _db;
         private readonly UserManager<User> _userManager;
+
         public PanierController(ApplicationDbContext Db, UserManager<User> userManager)
         {
             _db = Db;
@@ -47,9 +48,14 @@ namespace AuthJWT.Controllers
         }
 
         [HttpPost("AddToPanier")]
-        public async Task<IActionResult> AddPanier(string IdPrdct, Login login)
+        public async Task<IActionResult> AddPanier(string IdPrdct, Login login, float Q)
         {
             var user = await _userManager.FindByEmailAsync(login.Email);
+
+            var ProductId = _db.Products.SingleOrDefault(p => p.Id == IdPrdct);
+            var qantity = _db.Paniers.SingleOrDefault(q => q.Quantity == Q);
+            var p = new Panier();
+
 
             var panier = await _db.Paniers.SingleOrDefaultAsync(p => p.ProductId == IdPrdct && p.UserId == user.Id);
             if (panier == null)
@@ -58,14 +64,16 @@ namespace AuthJWT.Controllers
                 {
                     UserId = user.Id,
                     ProductId = IdPrdct,
-                    Quantity = 1
-                    //TotalPrice = _panier.Quantity * _product.Prix
+                    Quantity = Q,
+                    TotalPrice = qantity.Quantity * ProductId.Prix
                 };
                 await _db.Paniers.AddAsync(panier);
             }
             else
             {
                 panier.Quantity++;
+
+
             }
             await _db.SaveChangesAsync();
 

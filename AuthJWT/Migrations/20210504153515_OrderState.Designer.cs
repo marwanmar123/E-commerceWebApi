@@ -4,14 +4,16 @@ using AuthJWT.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AuthJWT.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210504153515_OrderState")]
+    partial class OrderState
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,15 +73,15 @@ namespace AuthJWT.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("OrderStateId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("orderStateId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderStateId");
+                    b.HasIndex("orderStateId");
 
                     b.ToTable("Orders");
                 });
@@ -94,7 +96,7 @@ namespace AuthJWT.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OrderStates");
+                    b.ToTable("OrderState");
                 });
 
             modelBuilder.Entity("AuthJWT.Models.Panier", b =>
@@ -392,11 +394,11 @@ namespace AuthJWT.Migrations
 
             modelBuilder.Entity("AuthJWT.Models.Order", b =>
                 {
-                    b.HasOne("AuthJWT.Models.OrderState", "OrderState")
+                    b.HasOne("AuthJWT.Models.OrderState", "orderState")
                         .WithMany()
-                        .HasForeignKey("OrderStateId");
+                        .HasForeignKey("orderStateId");
 
-                    b.Navigation("OrderState");
+                    b.Navigation("orderState");
                 });
 
             modelBuilder.Entity("AuthJWT.Models.Panier", b =>

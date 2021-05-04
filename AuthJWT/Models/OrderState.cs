@@ -5,12 +5,9 @@ using System.Threading.Tasks;
 
 namespace AuthJWT.Models
 {
-    public class Commande
+    public class OrderState
     {
         public string Id { get; set; }
-        public string UserId { get; set; }
-        public DateTime Date { get; set; }
-
-        public ICollection<OneCommande> OneCommande { get; set; }
+        public string State { get; set; }
     }
 }

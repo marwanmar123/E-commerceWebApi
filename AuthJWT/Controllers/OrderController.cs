@@ -24,7 +24,7 @@ namespace AuthJWT.Controllers
         }
 
         [HttpPost("DoOrder")]
-        public async Task<IActionResult> Order(Login login, string orderState)
+        public async Task<IActionResult> Order(Login login)
         {
             var user = await _userManager.FindByEmailAsync(login.Email);
             var Nmbr = _db.Paniers.Where(n => n.UserId == user.Id).ToList().Count;
@@ -37,7 +37,7 @@ namespace AuthJWT.Controllers
             {
                 UserId = user.Id,
                 Date = DateTime.Now,
-                OrderStateId = orderState
+                OrderStateId = "3"
             };
             _db.Orders.Add(order);
             _db.SaveChanges();
@@ -48,7 +48,8 @@ namespace AuthJWT.Controllers
                 {
                     OrderId = order.Id,
                     ProductId = p.ProductId,
-                    Price = p.Product.Prix
+                    Price = p.Product.Prix,
+                    Quantity = p.Quantity
                 };
                 await _db.OneOrders.AddAsync(oneOrder);
 

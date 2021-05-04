@@ -23,8 +23,8 @@ namespace AuthJWT.Controllers
             _userManager = userManager;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Commande(Login login, string orderState)
+        [HttpPost("DoOrder")]
+        public async Task<IActionResult> Order(Login login, string orderState)
         {
             var user = await _userManager.FindByEmailAsync(login.Email);
             var Nmbr = _db.Paniers.Where(n => n.UserId == user.Id).ToList().Count;
@@ -62,6 +62,15 @@ namespace AuthJWT.Controllers
                 await _db.SaveChangesAsync();
             }
 
+            return Ok(order);
+        }
+
+        [HttpPost("CancelOrder")]
+        public async Task<IActionResult> CancelOrder(string Id)
+        {
+            var order = await _db.Orders.FindAsync(Id);
+            order.OrderStateId = "1";
+            await _db.SaveChangesAsync();
             return Ok(order);
         }
     }

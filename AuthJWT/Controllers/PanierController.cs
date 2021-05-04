@@ -52,9 +52,9 @@ namespace AuthJWT.Controllers
         {
             var user = await _userManager.FindByEmailAsync(login.Email);
 
-            var ProductId = _db.Products.SingleOrDefault(p => p.Id == IdPrdct);
-            var qantity = _db.Paniers.SingleOrDefault(q => q.Quantity == Q);
-            var p = new Panier();
+            //var ProductId = _db.Products.SingleOrDefault(p => p.Id == IdPrdct);
+            //var qantity = _db.Paniers.SingleOrDefault(q => q.Quantity == Q);
+            //var p = new Panier();
 
 
             var panier = await _db.Paniers.SingleOrDefaultAsync(p => p.ProductId == IdPrdct && p.UserId == user.Id);
@@ -64,8 +64,8 @@ namespace AuthJWT.Controllers
                 {
                     UserId = user.Id,
                     ProductId = IdPrdct,
-                    Quantity = Q,
-                    TotalPrice = qantity.Quantity * ProductId.Prix
+                    Quantity = Q
+                    //TotalPrice = qantity.Quantity * ProductId.Prix
                 };
                 await _db.Paniers.AddAsync(panier);
             }

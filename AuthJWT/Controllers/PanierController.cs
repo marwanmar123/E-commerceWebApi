@@ -52,41 +52,47 @@ namespace AuthJWT.Controllers
         {
             var user = await _userManager.FindByEmailAsync(login.Email);
 
-            //var ProductId = _db.Products.SingleOrDefault(p => p.Id == IdPrdct);
-            //var qantity = _db.Paniers.SingleOrDefault(q => q.Quantity == Q);
-            //var p = new Panier();
+            //Get the product Id 
+            var ProductId = _db.Products.SingleOrDefault(p => p.Id == IdPrdct);
 
+            var q = _db.Paniers.Where(s => s.UserId == user.Id && s.ProductId == IdPrdct).Select(a => a.Quantity + 1).FirstOrDefault();
 
+            float Price()
+            {
+                return Q * ProductId.Prix;
+            }
             var panier = await _db.Paniers.SingleOrDefaultAsync(p => p.ProductId == IdPrdct && p.UserId == user.Id);
+            float PriceElse()
+            {
+
+                return q * ProductId.Prix;
+            }
+
             if (panier == null)
             {
                 panier = new Panier
                 {
                     UserId = user.Id,
                     ProductId = IdPrdct,
-                    Quantity = Q
-                    //TotalPrice = qantity.Quantity * ProductId.Prix
+                    Quantity = Q,
+                    TotalPrice = Price()
                 };
                 await _db.Paniers.AddAsync(panier);
+
             }
             else
             {
-                panier.Quantity++;
 
+                panier.Quantity++;
+                panier.TotalPrice = PriceElse();
+
+                _db.SaveChanges();
 
             }
             await _db.SaveChangesAsync();
 
             return Ok(panier);
         }
-
-        //[HttpGet("TotalPrice")]
-        //public async Task<IActionResult> TotalPrice(string userId)
-        //{
-        //    //SumAsync(n => (n.Some()))
-        //    var TP = await _db.Paniers.Where(p => p.UserId == userId).Include(n => n.Product).SumAsync(n => (n.Quantity * _product.Prix));
-        //    return Ok(TP);
-        //}
 
         [HttpPost("DeleteFromPanier")]
         public async Task<IActionResult> DeletePanier(string userId)

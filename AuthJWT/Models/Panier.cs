@@ -16,9 +16,5 @@ namespace AuthJWT.Models
         public string UserId { get; set; }
         public Product Product { get; set; }
         public User User { get; set; }
-        //public float Price()
-        //{
-        //    return Quantity * Product.Prix;
-        //}
     }
 }

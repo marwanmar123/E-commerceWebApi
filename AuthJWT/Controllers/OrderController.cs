@@ -31,13 +31,14 @@ namespace AuthJWT.Controllers
             if (Nmbr == 0) return Ok("panier est vide");
 
             IList<Panier> ListPanier = _db.Paniers.Where(l => l.UserId == user.Id).Include(p => p.Product).ToList();
-            //Order order = new Order();
+            var tp = await _db.Paniers.Where(p => p.UserId == user.Id).Include(n => n.Product).SumAsync(n => (n.TotalPrice));
 
             Order order = new Order
             {
                 UserId = user.Id,
                 Date = DateTime.Now,
-                OrderStateId = "3"
+                OrderStateId = "3",
+                TotalePrice = tp
             };
             _db.Orders.Add(order);
             _db.SaveChanges();

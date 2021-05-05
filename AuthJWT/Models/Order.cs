@@ -13,6 +13,7 @@ namespace AuthJWT.Models
         public string UserId { get; set; }
         public DateTime Date { get; set; }
         public string OrderStateId { get; set; }
+        public float TotalePrice { get; set; }
 
         public OrderState OrderState { get; set; }
         public ICollection<OneOrder> OneOrder { get; set; }

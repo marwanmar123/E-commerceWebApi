@@ -55,7 +55,7 @@ namespace AuthJWT.Controllers
             //Get the product Id 
             var ProductId = _db.Products.SingleOrDefault(p => p.Id == IdPrdct);
 
-            var q = _db.Paniers.Where(s => s.UserId == user.Id && s.ProductId == IdPrdct).Select(a => a.Quantity + 1).FirstOrDefault();
+            var q = _db.Paniers.Where(s => s.UserId == user.Id && s.ProductId == IdPrdct).Select(a => a.Quantity).FirstOrDefault();
 
             float Price()
             {
@@ -65,7 +65,7 @@ namespace AuthJWT.Controllers
             float PriceElse()
             {
 
-                return q * ProductId.Prix;
+                return (q += Q) * ProductId.Prix;
             }
 
             if (panier == null)
@@ -78,12 +78,13 @@ namespace AuthJWT.Controllers
                     TotalPrice = Price()
                 };
                 await _db.Paniers.AddAsync(panier);
+                _db.SaveChanges();
 
             }
             else
             {
 
-                panier.Quantity++;
+                panier.Quantity += Q;
                 panier.TotalPrice = PriceElse();
 
                 _db.SaveChanges();

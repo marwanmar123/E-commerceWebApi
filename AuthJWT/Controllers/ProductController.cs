@@ -1,9 +1,12 @@
-﻿using AuthJWT.Models;
+﻿using AuthJWT.Data;
+using AuthJWT.Models;
 using AuthJWT.Repostory;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,10 +17,13 @@ namespace AuthJWT.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IRepo<Product> _repo;
+        private readonly ApplicationDbContext _db;
 
-        public ProductController(IRepo<Product> repo)
+
+        public ProductController(IRepo<Product> repo, ApplicationDbContext db)
         {
             _repo = repo;
+            _db = db;
         }
 
         [HttpGet]
@@ -39,10 +45,11 @@ namespace AuthJWT.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Product product)
         {
+
+            await _db.SaveChangesAsync();
             var create = await _repo.AddItem(product);
             return Ok(create);
         }
-
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Put([FromBody] Product product)

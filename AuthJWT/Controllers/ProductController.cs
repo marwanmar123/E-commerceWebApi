@@ -25,8 +25,8 @@ namespace AuthJWT.Controllers
             _repo = repo;
             _db = db;
         }
-
         [HttpGet]
+        //[Route("GetProducts")]
         public async Task<IActionResult> Get()
         {
             var products = await _repo.GetItems();

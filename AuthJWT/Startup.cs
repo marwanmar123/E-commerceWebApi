@@ -34,8 +34,21 @@ namespace AuthJWT
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        readonly string Acceess = "_Acceess";
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("_Acceess",
+                    builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    );
+            });
+
+
             services.Configure<JWT>(Configuration.GetSection("JWT"));
 
             services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
@@ -89,7 +102,7 @@ namespace AuthJWT
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AuthJWT v1"));
             }
-
+            app.UseCors(Acceess);
             app.UseHttpsRedirection();
 
             app.UseRouting();

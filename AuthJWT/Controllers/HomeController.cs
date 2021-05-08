@@ -23,7 +23,7 @@ namespace AuthJWT.Controllers
         }
 
 
-        [HttpGet]
+        [HttpGet("Categories")]
         public async Task<IActionResult> Catgr()
         {
             var categories = await _db.Categories.ToListAsync();

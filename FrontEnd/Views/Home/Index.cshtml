@@ -1,0 +1,80 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@*<script src="~/lib/jquery/jquery.js"></script>*@
+@*<script src="C:\Users\Youcode\source\repos\ecom\AuthJWT\wwwRoot\js\jquery.min.js"></script>*@
+<script src="~/jquery/jquery.min.js"></script>
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Test Data from API
+    </div>   <!--en dof panel-heading -->
+    <div class="panel-body">
+        <table class="table table-bordered" id="Table">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>prix</th>
+                <th>date</th>
+                <th>topic</th>
+                <th>category</th>
+
+            </tr>   <!--end of table-row -->
+        </table>   <!--end of table -->
+    </div> <!--end of Panel-body -->
+</div> <!--end of Panel -->
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        Manager.GetAllProduct();
+
+    })
+
+    var Manager = {
+        GetAllProduct: function () {
+            var obj = "";
+
+            var serviceurl = "https://localhost:44317/api/Product";
+            window.Manager.GetAPI(serviceurl, onSuccess, onFailed);
+            function onSuccess(jsonData) {
+
+                obj = jsonData;
+                $.each(jsonData, function (i, item) {
+                    var rows = "<tr>" +
+                        "<td id='Id'>" + item.id + "</td>" +
+                        "<td id='Name'>" + item.name + "</td>" +
+                        "<td id='Price'>" + item.prix + "</td>" +
+                        "<td id='Price'>" + item.date + "</td>" +
+                        "<td id='Price'>" + item.topic + "</td>" +
+                        "<td id='Price'>" + item.categoryId + "</td>"
+                    "</tr>";
+                    $('#Table').append(rows);
+                });
+            }
+            function onFailed(error) {
+                window.alert(error.statusText);
+            }
+            return obj;
+
+
+        },
+        GetAPI: function (serviceurl, successCallback, errorCallback) {
+
+            $.ajax({
+
+                type: "Get",
+                url: serviceurl,
+                datatype: "json",
+                success: successCallback,
+                error: errorCallback
+            });
+
+        },
+    }
+</script>

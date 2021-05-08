@@ -25,7 +25,7 @@ namespace AuthJWT.Controllers
             _db = Db;
         }
 
-        [HttpGet]
+        [HttpGet("cat")]
         public async Task<IActionResult> Get()
         {
             var categories = await _repo.GetItems();

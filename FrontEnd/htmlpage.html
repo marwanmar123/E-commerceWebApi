@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+
+
+    <form method="Post">
+
+        <!--<div class="form-group">-->
+        <!--<label asp-for="Id">Name</label>-->
+        <!--<input name="Id" type="text" class="form-control" id="Id">
+        </div>-->
+        <div class="form-group">
+            <!--k<label asp-for="ProductName">Name</label>-->
+            <input name="name" type="text" class="form-control" id="name">
+        </div>
+        <div class="form-group">
+            <!--k<label asp-for="ProductName">Name</label>-->
+            <input name="date" type="text" class="form-control" id="prix">
+        </div>
+        <div class="form-group">
+            <!--<label asp-for="price">Price</label>-->
+            <input name="prix" type="text" class="form-control" id="topic">
+        </div>
+        <div class="form-group">
+            <!--<label asp-for="price">Price</label>-->
+            <input name="image" type="text" class="form-control" id="image">
+        </div>
+        <!--<div class="form-group">-->
+        <!--<label asp-for="price">Price</label>-->
+        <!--<input name="topic" type="text" class="form-control" id="image">
+        </div>-->
+        <div class="form-group">
+            <!--<label asp-for="price">Price</label>-->
+            <!--<input name="categoryId" type="text" class="form-control" id="date">-->
+        </div>
+
+
+        <button type="submit" id="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+
+    div class="panel panel-primary">
+    <div class="panel-heading">
+        Test Data from API
+    </div>   <!--en dof panel-heading -->
+
+
+    <div class="panel-body">
+        <table class="table table-bordered" id="Table">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>price</th>
+
+            </tr>   <!--end of table-row -->
+        </table>   <!--end of table -->
+    </div> <!--end of Panel-body -->
+    <!--</div>--> <!--end of Panel -->
+    <!--"id": "044bb15a-563b-422d-92f0-b43f5c696228",
+        "name": "sac majda",
+        "date": "2021-05-05T15:25:17.861",
+        "prix": 15,
+        "image": null,
+        "topic": "sansla",-->
+    <!--"categoryId": "684cd601-4315-4266-902c-0f28cf9d15d0",-->
+
+    <script src="C:\Users\Youcode\source\repos\ecom\FrontEnd\wwwroot\jquery\jquery.min.js"></script>
+    <!--<script src="~/js/jquery.min.js"></script>-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('submit').click(function () {
+                var product = {};
+                //product.id = $('#Id').val();
+                product.name = $('#name').val();
+                product.prix = $('#prix').val();
+                //product.date = $('#date').val();
+                product.topic = $('#topic').val();
+                product.image = $('#image').val();
+                product.categoryId = $('#categoryId').val();
+
+                console.log(product);
+                $.ajax({
+
+                    url: 'https://localhost:44317/api/Product/create',
+                    type: "Post",
+                    contentType: 'apllication/json;charset=utf-8',
+                    datatype: "Json",
+                    success: function (data) {
+                        window.alert(data);
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+
+                })
+            });
+
+        });
+
+    </script>
+</body>
+</html>

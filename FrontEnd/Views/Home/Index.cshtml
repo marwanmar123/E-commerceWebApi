@@ -1,8 +1,4 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-@*<script src="~/lib/jquery/jquery.js"></script>*@
-@*<script src="C:\Users\Youcode\source\repos\ecom\AuthJWT\wwwRoot\js\jquery.min.js"></script>*@
+﻿
 <script src="~/jquery/jquery.min.js"></script>
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
@@ -47,14 +43,15 @@
                 obj = jsonData;
                 $.each(jsonData, function (i, item) {
                     var rows = "<tr>" +
-                        "<td id='Id'>" + item.id + "</td>" +
-                        "<td id='Name'>" + item.name + "</td>" +
-                        "<td id='Price'>" + item.prix + "</td>" +
-                        "<td id='Price'>" + item.date + "</td>" +
-                        "<td id='Price'>" + item.topic + "</td>" +
-                        "<td id='Price'>" + item.categoryId + "</td>"
+                        "<td>" + item.id + "</td>" +
+                        "<td>" + item.name + "</td>" +
+                        "<td>" + item.prix + "</td>" +
+                        "<td>" + item.date + "</td>" +
+                        "<td>" + item.topic + "</td>" +
+                        "<td>" + item.categoryId + "</td>"
                     "</tr>";
                     $('#Table').append(rows);
+                    console.log(i)
                 });
             }
             function onFailed(error) {

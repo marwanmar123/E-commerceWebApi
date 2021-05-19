@@ -1,0 +1,133 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+@*@page
+    @model IndexModel
+    @{
+        ViewData["Title"] = "Home page";
+    }*@
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<div id="app">
+    <component1></component1>
+    {{message}}
+</div>
+<template id="templateId">
+    <div>
+        <input class="form-control" placeholder="name" v-model="name" />
+        <input class="form-control" placeholder="topic" v-model="topic" />
+        <input type="hidden" v-model="id" />
+        <button v-show="editMode===false" class="btn btn-primary" style="width:100px" v-on:click="addBook">Add</button>
+        <button v-show="editMode" class="btn btn-dark" style="width:100px" v-on:click="saveEditBook">Save</button>
+        <button v-show="editMode" class="btn btn-info" style="width:100px" v-on:click="cancelEdit">Cancel</button>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">id</th>
+                    <th scope="col">name</th>
+                    <th scope="col">title</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(book,index) in books">
+                    <th scope="row">
+                        <label>{{index+1}}</label>
+                    </th>
+                    <td>{{book.id}}</td>
+                    <td>{{book.name}}</td>
+                    <td>{{book.topic}}</td>
+                    <td>
+                        <button class="btn btn-primary" style="width:100px" v-on:click="editBook(book)">Edit</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger" style="width:100px" v-on:click="deleteBook(book.id)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</template>
+@section scripts
+{
+    <script>
+        Vue.component("component1", {
+            data() {
+                return {
+                    books: [],
+                    name: "",
+                    topic: "",
+                    id: "",
+                    editMode: false
+                }
+            },
+            methods: {
+                addBook: function () {
+                    self = this;
+                    var newBook = {
+                        name: self.name,
+                        topic: self.topic
+                    }
+                    axios.post("https://localhost:44317/api/Product/Add", newBook)
+                        .then(res => this.books = res.data)
+                        .catch(err => console.log(err))
+                }
+                ,
+                editBook: function (book) {
+                    this.name = book.name;
+                    this.topic = book.topic;
+                    this.id = book.id;
+                    this.editMode = true;
+                },
+                saveEditBook: function () {
+                    self = this;
+                    var newBook = {
+                        name: self.name,
+                        topic: self.topic,
+                        id: self.id
+                    }
+                    axios.post("https://localhost:44317/api/Product/put", newBook)
+                        .then(res => this.books = res.data)
+                        .catch(err => console.log(err))
+                },
+                deleteBook: function (id) {
+                    self = this;
+
+                    axios.post("https://localhost:44317/api/Product/Delete?id=" + id)
+                        .then(res => this.books = res.data)
+                        .catch(err => console.log(err))
+                }
+                ,
+                cancelEdit: function () {
+                    this.name = "";
+                    this.topic = "";
+                    this.editMode = false;
+                }
+            },
+            created() {
+                axios.get("https://localhost:44317/api/Product")
+                    .then(res => this.books = res.data)
+                    .catch(err => console.log(err))
+            },
+            template: '#templateId'
+        })
+        var app = new Vue({
+            el: "#app",
+            data: {
+                message: "Hello from VueJs"
+            }
+        })
+    </script>
+}
+

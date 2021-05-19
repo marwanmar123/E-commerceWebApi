@@ -10,7 +10,6 @@
 *@
 @{
 }
-@*<script src="~/jquery/jquery.min.js"></script>*@
 <script src="~/jquery/jquery.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -43,35 +42,12 @@
         });
     });
 
-    //$(document).ready(function () {
-
-    //    var option = $('#option');
-
-    //    $('#registerbtn').click(function () {
-    //        $.ajax({
-
-    //            url: 'api/Product',
-    //            method: 'get',
-    //            contentType: "application/x-www-form-urlencoded",
-    //            success: function (data) {
-    //                console.log(data)
-    //                listProd.empty();
-    //                $.each(data, function (index, val) {
-    //                    var categoryId = val.categoryId;
-    //                    option.append('<option>' + catégorieId + '</option>');
-    //                });
-    //            }, error: function (err) {
-    //                console.log(err)
-
-    //            }
-    //        })
-    //    })
-    //});
 
 </script>
 
 <div class="container">
     <h1>Produit</h1>
+    <a asp-action="Index">retour</a>
     <hr>
     @*<div class="form-group">
             <select class="form-control" id="option">

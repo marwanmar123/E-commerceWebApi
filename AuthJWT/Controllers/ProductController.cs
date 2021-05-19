@@ -42,7 +42,7 @@ namespace AuthJWT.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("Add")]
 
         public async Task<IActionResult> Post([FromBody] Product product)
         {
